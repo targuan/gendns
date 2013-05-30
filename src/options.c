@@ -20,7 +20,7 @@ void setoptions(int argc, char** argv, struct options * opt) {
         {0, 0, 0, 0}
     };
 
-    opt->out_file_name = "/root/out.pcap";
+    opt->out_file_name = "out.pcap";
     opt->in_file_name = "queries.log";
     opt->count = 2;
     opt->smac = "f8:d1:11:07:a4:74"; // source MAC
@@ -36,13 +36,11 @@ void setoptions(int argc, char** argv, struct options * opt) {
 
 
     int c = 0;
-    int digit_optind = 0;
 
     while (c != -1) {
-        int this_option_optind = optind ? optind : 1;
         int option_index = 0;
 
-        c = getopt_long(argc, argv, "e:r:s:d:m:q:o:c:h",
+        c = getopt_long(argc, argv, "e:r:s:d:m:q:o:c:hl:",
                 long_options, &option_index);
         if (c == -1)
             break;
@@ -101,6 +99,7 @@ void setoptions(int argc, char** argv, struct options * opt) {
                 printf("%s ", argv[optind++]);
             printf("\n");
         }*/
+
 
     }
 }

@@ -11,7 +11,15 @@
 #ifdef	__cplusplus
 extern "C" {
 #endif
-
+#ifndef ETHERTYPE_IPV6
+#define ETHERTYPE_IPV6 0x86dd 
+#endif
+void get_rand_addr(
+        struct sockaddr * sin_net,
+        struct sockaddr * sin_smask,
+        struct sockaddr * sin_addr);
+void set_mask(struct sockaddr * sin,int family, int mask);
+unsigned short int inet_cksum(unsigned short int *addr, size_t len);
 int getipaddr(char * name, struct sockaddr * sin,int family);
 
 

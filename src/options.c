@@ -16,7 +16,6 @@ void setoptions(int argc, char** argv, struct options * opt) {
         {"count", required_argument, 0, 'c'},
         {"caplen", required_argument, 0, 'l'},
         {"family", required_argument, 0, 'f'},
-        {"interface", required_argument, 0, 'i'},
         {"help", no_argument, 0, 'h'},
         {0, 0, 0, 0}
     };
@@ -80,10 +79,6 @@ void setoptions(int argc, char** argv, struct options * opt) {
             case 'l':
                 opt->caplen = atoi(optarg);
                 break;
-            case 'i':
-                opt->interface = malloc(strlen(optarg)+1);
-                strcpy(opt->interface,optarg);
-                break;
             case 'f':
                 if(strcmp(optarg,"4") == 0) {
                     opt->family = AF_INET;
@@ -93,6 +88,10 @@ void setoptions(int argc, char** argv, struct options * opt) {
                     opt->family = 0;
                 }
                 opt->caplen = atoi(optarg);
+                break;
+            case 'i':
+                opt->interface = malloc(strlen(optarg)+1);
+                strcpy(opt->interface,optarg);
                 break;
             case 'h':
                 break;

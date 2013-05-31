@@ -16,6 +16,7 @@ void setoptions(int argc, char** argv, struct options * opt) {
         {"count", required_argument, 0, 'c'},
         {"caplen", required_argument, 0, 'l'},
         {"family", required_argument, 0, 'f'},
+        {"interface", required_argument, 0, 'i'},
         {"help", no_argument, 0, 'h'},
         {0, 0, 0, 0}
     };
@@ -40,7 +41,7 @@ void setoptions(int argc, char** argv, struct options * opt) {
     while (c != -1) {
         int option_index = 0;
 
-        c = getopt_long(argc, argv, "e:r:s:d:m:q:o:c:hl:",
+        c = getopt_long(argc, argv, "e:r:s:d:m:q:o:c:hl:i:",
                 long_options, &option_index);
         if (c == -1)
             break;
@@ -78,6 +79,10 @@ void setoptions(int argc, char** argv, struct options * opt) {
                 break;
             case 'l':
                 opt->caplen = atoi(optarg);
+                break;
+            case 'l':
+                opt->interface = malloc(strlen(optarg)+1);
+                strcpy(opt->interface,optarg);
                 break;
             case 'f':
                 if(strcmp(optarg,"4") == 0) {

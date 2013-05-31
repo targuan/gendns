@@ -34,6 +34,8 @@ extern "C" {
         int family;
         
         int caplen;
+        
+        char *interface;
     };
     void setoptions(int argc, char** argv,struct options * opt);
 

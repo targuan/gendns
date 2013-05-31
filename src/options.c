@@ -80,7 +80,7 @@ void setoptions(int argc, char** argv, struct options * opt) {
             case 'l':
                 opt->caplen = atoi(optarg);
                 break;
-            case 'l':
+            case 'i':
                 opt->interface = malloc(strlen(optarg)+1);
                 strcpy(opt->interface,optarg);
                 break;

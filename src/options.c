@@ -4,34 +4,33 @@
 #include <string.h>
 #include <sys/socket.h>
 
-void setoptions(int argc, char** argv, struct options * opt) {
-    static struct option long_options[] = {
-        {"smac", required_argument, 0, 'e'},
-        {"dmac", required_argument, 0, 'r'},
-        {"sip", required_argument, 0, 's'},
-        {"dip", required_argument, 0, 'd'},
-        {"smask", required_argument, 0, 'm'},
-        {"queries", required_argument, 0, 'q'},
-        {"output", required_argument, 0, 'o'},
-        {"count", required_argument, 0, 'c'},
-        {"caplen", required_argument, 0, 'l'},
-        {"family", required_argument, 0, 'f'},
-        {"help", no_argument, 0, 'h'},
-        {0, 0, 0, 0}
-    };
+static struct option long_options[] = {
+    {"smac", required_argument, 0, 'e'},
+    {"dmac", required_argument, 0, 'r'},
+    {"snet", required_argument, 0, 's'},
+    {"dip", required_argument, 0, 'd'},
+    {"smask", required_argument, 0, 'm'},
+    {"queries", required_argument, 0, 'q'},
+    {"output", required_argument, 0, 'o'},
+    {"count", required_argument, 0, 'c'},
+    {"family", required_argument, 0, 'f'},
+    {"interface", required_argument, 0, 'i'},
+    {"mtu", required_argument, 0, 't'},
+    {"help", no_argument, 0, 'h'},
+    {0, 0, 0, 0}
+};
 
+void setoptions(int argc, char** argv, struct options * opt) {
     opt->out_file_name = "out.pcap";
     opt->in_file_name = "queries.log";
-    opt->count = 2;
-    opt->smac = "f8:d1:11:07:a4:74"; // source MAC
-    opt->dmac = "00:07:cb:46:fa:98"; // destination MAC
-    //char *dip = "80.12.195.184"; // destination IP
-    opt->dip = "::1"; // destination IP
-    //char *sip = "1.0.0.0"; // source IP
-    opt->sip = "::2"; // source IP
-    opt->smask = 8; //source MASK
+    opt->count = 0;
+    opt->smac = ""; // source MAC
+    opt->dmac = ""; // destination MAC
+    opt->dip = ""; // destination IP
+    opt->snet = ""; // source IP
+    opt->smask = 128; //source MASK
     opt->family = 0;
-    opt->caplen = 4096;
+    opt->mtu = 1200;
 
 
 
@@ -55,8 +54,8 @@ void setoptions(int argc, char** argv, struct options * opt) {
                 strcpy(opt->dmac,optarg);
                 break;
             case 's':
-                opt->sip = malloc(strlen(optarg)+1);
-                strcpy(opt->sip,optarg);
+                opt->snet = malloc(strlen(optarg)+1);
+                strcpy(opt->snet,optarg);
                 break;
             case 'd':
                 opt->dip = malloc(strlen(optarg)+1);
@@ -76,9 +75,6 @@ void setoptions(int argc, char** argv, struct options * opt) {
             case 'c':
                 opt->count = atoi(optarg);
                 break;
-            case 'l':
-                opt->caplen = atoi(optarg);
-                break;
             case 'f':
                 if(strcmp(optarg,"4") == 0) {
                     opt->family = AF_INET;
@@ -93,17 +89,12 @@ void setoptions(int argc, char** argv, struct options * opt) {
                 opt->interface = malloc(strlen(optarg)+1);
                 strcpy(opt->interface,optarg);
                 break;
+            case 't':
+                opt->mtu = atoi(optarg);
+                break;
             case 'h':
                 break;
         }
-
-        /*if (optind < argc) {
-            printf("non-option ARGV-elements: ");
-            while (optind < argc)
-                printf("%s ", argv[optind++]);
-            printf("\n");
-        }*/
-
 
     }
 }

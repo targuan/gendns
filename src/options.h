@@ -26,16 +26,15 @@ extern "C" {
          */
         char *smac; // source MAC
         char *dmac; // destination MAC
-        //char *dip = "80.12.195.184"; // destination IP
         char *dip; // destination IP
-        //char *sip = "1.0.0.0"; // source IP
-        char *sip; // source IP
+        char *snet; // source IP
         int smask; //source MASK
         int family;
         
         int caplen;
         
         char *interface;
+        int mtu;
     };
     void setoptions(int argc, char** argv,struct options * opt);
 

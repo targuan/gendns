@@ -1,4 +1,4 @@
-
+#include <time.h>
 #include <stdio.h>
 #include <netdb.h>
 #include <stdlib.h>
@@ -20,10 +20,6 @@ void get_rand_addr(
     
     struct sockaddr_in6 * sin_addr_6 = sin_addr;
     struct sockaddr_in * sin_addr_4 = sin_addr;
-    
-    char *tmp = calloc(1024,1);
-    char *tmp1 = calloc(1024,1);
-    char *tmp2 = calloc(1024,1);
     
     uint32_t r;
     
@@ -56,9 +52,7 @@ void set_mask(struct sockaddr * sin,int family, int mask) {
     struct sockaddr_in6 * sin_6 = sin;
     struct sockaddr_in * sin_4 = sin;
     
-    srand(time());
-    
-    char *tmp = calloc(1024,1);
+    srand(time(NULL));
     
     sin->sa_family = family;
     

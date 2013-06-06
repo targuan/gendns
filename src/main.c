@@ -45,7 +45,7 @@ int main(int argc, char** argv) {
     struct sockaddr *sin_dst;
     struct sockaddr *sin_mask;
     int sendsize;
-    struct options opts;
+    struct options_args opts;
     FILE* fp_domain;
     char * domain;
 

@@ -12,7 +12,7 @@
 extern "C" {
 #endif
     
-    struct options {
+    struct options_args {
         /**
          * 
          * Output options
@@ -31,13 +31,11 @@ extern "C" {
         int smask; //source MASK
         int family;
         
-        int caplen;
-        
         char *interface;
         int mtu;
     };
-    void setoptions(int argc, char** argv,struct options * opt);
-
+    void setoptions(int argc, char** argv,struct options_args * opt);
+    
 #ifdef	__cplusplus
 }
 #endif

@@ -3,6 +3,7 @@
 #include <stdlib.h>  
 #include <string.h>
 #include <sys/socket.h>
+#include <stdio.h>
 
 static struct option long_options[] = {
     {"smac", required_argument, 0, 'e'},
@@ -20,17 +21,52 @@ static struct option long_options[] = {
     {0, 0, 0, 0}
 };
 
-void setoptions(int argc, char** argv, struct options * opt) {
-    opt->out_file_name = "out.pcap";
-    opt->in_file_name = "queries.log";
+void printoptions (struct options_args * opt) {
+    char *out_file_name;
+    char *in_file_name;
+    int count;
+
+    /**
+     * NET Options
+     */
+    char *smac; // source MAC
+    char *dmac; // destination MAC
+    char *dip; // destination IP
+    char *snet; // source IP
+    int smask; //source MASK
+    int family;
+
+    char *interface;
+    int mtu;
+        
+        
+    if(opt->out_file_name != NULL)
+        fprintf(stderr,"Writing result in %s\n",opt->out_file_name);
+    else if(opt->interface != NULL)
+        fprintf(stderr,"Sending result on %s\n",opt->interface);
+    else
+        fprintf(stderr,"No output specified\n");
+    
+    if(opt->in_file_name != NULL)
+        fprintf(stderr,"Reading queries from %s\n",opt->in_file_name);
+    else 
+        fprintf(stderr,"No queries file specified\n");
+    
+    
+}
+
+void setoptions(int argc, char** argv, struct options_args * opt) {
+    opt->out_file_name = NULL;
+    opt->in_file_name = NULL;
     opt->count = 0;
-    opt->smac = ""; // source MAC
-    opt->dmac = ""; // destination MAC
-    opt->dip = ""; // destination IP
-    opt->snet = ""; // source IP
+    opt->smac = NULL; // source MAC
+    opt->dmac = NULL; // destination MAC
+    opt->dip = NULL; // destination IP
+    opt->snet = NULL; // source IP
     opt->smask = 128; //source MASK
     opt->family = 0;
     opt->mtu = 1200;
+    opt->interface = NULL;
 
 
 
@@ -69,8 +105,12 @@ void setoptions(int argc, char** argv, struct options * opt) {
                 strcpy(opt->in_file_name,optarg);
                 break;
             case 'o':
-                opt->out_file_name = malloc(strlen(optarg)+1);
-                strcpy(opt->out_file_name,optarg);
+                if(strcmp(optarg, "-") == 0) {
+                    opt->out_file_name = "stdin";
+                } else {
+                    opt->out_file_name = malloc(strlen(optarg)+1);
+                    strcpy(opt->out_file_name,optarg);
+                }
                 break;
             case 'c':
                 opt->count = atoi(optarg);
@@ -83,7 +123,6 @@ void setoptions(int argc, char** argv, struct options * opt) {
                 } else {
                     opt->family = 0;
                 }
-                opt->caplen = atoi(optarg);
                 break;
             case 'i':
                 opt->interface = malloc(strlen(optarg)+1);
@@ -97,4 +136,6 @@ void setoptions(int argc, char** argv, struct options * opt) {
         }
 
     }
+    
+    printoptions (opt);
 }
